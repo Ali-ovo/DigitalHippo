@@ -11,6 +11,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import { AuthCredentialsValidator, TAuthCredentialsValidator } from '@/lib/validators/account-credentials-validator'
+import { trpc } from '@/trpc/client'
 
 const Page = () => {
   const {
@@ -21,8 +22,16 @@ const Page = () => {
     resolver: zodResolver(AuthCredentialsValidator),
   })
 
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
+    onSuccess: () => {
+      // redirect to the dashboard
+      console.log("111")
+    },
+  })
+
   const onSubmit = ({ email, password }: TAuthCredentialsValidator) => {
     // send data to the server
+    mutate({ email, password })
   }
 
   return (
@@ -35,7 +44,7 @@ const Page = () => {
 
             <Link href={'/sign-in'} className={buttonVariants({ variant: 'link', className: 'gap-1.5' })}>
               Already have an account? Sign in
-              <ArrowRight className='h-4 w-4' />  
+              <ArrowRight className='h-4 w-4' />
             </Link>
           </div>
 
