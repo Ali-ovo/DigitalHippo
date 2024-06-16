@@ -9,9 +9,11 @@ import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod'
+import { ZodError, z } from 'zod'
 import { AuthCredentialsValidator, TAuthCredentialsValidator } from '@/lib/validators/account-credentials-validator'
 import { trpc } from '@/trpc/client'
+import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 
 const Page = () => {
   const {
@@ -22,10 +24,27 @@ const Page = () => {
     resolver: zodResolver(AuthCredentialsValidator),
   })
 
+  const router = useRouter()
+
   const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
-    onSuccess: () => {
-      // redirect to the dashboard
-      console.log("111")
+    onSuccess: ({ sentToEmail }) => {
+      toast.success(`Verification email sent to ${sentToEmail}`)
+      router.push('/verify-email?to=' + sentToEmail)
+    },
+    onError: err => {
+      if (err.data?.code === 'CONFLICT') {
+        toast.error('This email is already in use. Please try again with a different email.')
+
+        return
+      }
+
+      if (err instanceof ZodError) {
+        toast.error(err.errors[0].message)
+
+        return
+      }
+
+      toast.error('Something went wrong. Please try again later.')
     },
   })
 
@@ -60,6 +79,7 @@ const Page = () => {
                     })}
                     placeholder='you@example.com'
                   />
+                  {errors?.email && <p className='text-sm text-red-500'>{errors.email.message}</p>}
                 </div>
                 <div className='grid gap-1 py-2'>
                   <Label htmlFor='email'>Password</Label>
@@ -71,6 +91,7 @@ const Page = () => {
                     })}
                     placeholder='Password'
                   />
+                  {errors?.password && <p className='text-sm text-red-500'>{errors.password.message}</p>}
                 </div>
 
                 <Button>Sign up</Button>
