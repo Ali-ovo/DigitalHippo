@@ -7,6 +7,8 @@ import { Users } from './collections/Users'
 import dotEnv from 'dotenv'
 import { Products } from './collections/Products/Products'
 import { Media } from './collections/Media'
+import { ProductFiles } from './collections/ProductFile'
+import { Orders } from './collections/Order'
 
 dotEnv.config({
   path: path.resolve(__dirname, '../.env'),
@@ -14,7 +16,7 @@ dotEnv.config({
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
-  collections: [Users, Products, Media],
+  collections: [Users, Products, Media, ProductFiles, Orders],
   routes: {
     admin: '/sell',
   },
@@ -28,7 +30,7 @@ export default buildConfig({
     },
   },
   rateLimit: {
-    max: 2000,
+    max: 3000,
   },
   editor: slateEditor({}),
   db: mongooseAdapter({

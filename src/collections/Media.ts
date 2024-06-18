@@ -1,7 +1,7 @@
 import { User } from '../payload-types'
 import { Access, CollectionConfig } from 'payload/types'
 
-const isAdminOrHasAccessToTImages =
+const isAdminOrHasAccessToImages =
   (): Access =>
   async ({ req }) => {
     const user = req.user as User | undefined
@@ -21,10 +21,7 @@ export const Media: CollectionConfig = {
   hooks: {
     beforeChange: [
       ({ req, data }) => {
-        return {
-          ...data,
-          user: req.user.id,
-        }
+        return { ...data, user: req.user.id }
       },
     ],
   },
@@ -36,11 +33,10 @@ export const Media: CollectionConfig = {
         return true
       }
 
-      return await isAdminOrHasAccessToTImages()({ req })
+      return await isAdminOrHasAccessToImages()({ req })
     },
-
-    delete: isAdminOrHasAccessToTImages(),
-    update: isAdminOrHasAccessToTImages(),
+    delete: isAdminOrHasAccessToImages(),
+    update: isAdminOrHasAccessToImages(),
   },
   admin: {
     hidden: ({ user }) => user.role !== 'admin',
@@ -68,10 +64,8 @@ export const Media: CollectionConfig = {
         position: 'centre',
       },
     ],
-
-    mimeTypes: ['images/*'],
+    mimeTypes: ['image/*'],
   },
-
   fields: [
     {
       name: 'user',

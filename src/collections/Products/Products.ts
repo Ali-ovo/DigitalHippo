@@ -44,14 +44,14 @@ export const Products: CollectionConfig = {
       options: PRODUCT_CATEGORIES.map(({ label, value }) => ({ label, value })),
       required: true,
     },
-    // {
-    //   name: 'product_files',
-    //   label: 'Product files(s)',
-    //   type: 'relationship',
-    //   required: true,
-    //   relationTo: 'product_files',
-    //   hasMany: false,
-    // },
+    {
+      name: 'product_files',
+      label: 'Product file(s)',
+      type: 'relationship',
+      required: true,
+      relationTo: 'product_files',
+      hasMany: false,
+    },
     {
       name: 'approvedForSale',
       label: 'Product Status',
@@ -101,7 +101,6 @@ export const Products: CollectionConfig = {
         hidden: true,
       },
     },
-
     {
       name: 'images',
       type: 'array',
@@ -113,14 +112,13 @@ export const Products: CollectionConfig = {
         singular: 'Image',
         plural: 'Images',
       },
-
       fields: [
         {
           name: 'image',
           type: 'upload',
           relationTo: 'media',
           required: true,
-        },
+         },
       ],
     },
   ],
