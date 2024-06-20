@@ -41,7 +41,6 @@ const Page = async ({ params }: PageProps) => {
   })
 
   const [product] = products
-  console.log('%c [ product ]-44', 'font-size:13px; background:#7a6a5d; color:#beaea1;', product)
 
   if (!product) return notFound()
 
