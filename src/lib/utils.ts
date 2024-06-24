@@ -8,11 +8,11 @@ export function cn(...inputs: ClassValue[]) {
 export function formatPrice(
   price: number | string,
   options: {
-    currency?: 'USD' | 'EUR' | 'BDT' | 'CNY'
+    currency?: 'USD' | 'EUR' | 'BDT' | 'CNY' | "HKD"
     notation?: Intl.NumberFormatOptions['notation']
   } = {}
 ) {
-  const { currency = 'USD', notation = 'compact' } = options
+  const { currency = 'HKD', notation = 'compact' } = options
 
   const numericPrice = typeof price === 'string' ? parseFloat(price) : price
 
