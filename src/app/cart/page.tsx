@@ -40,7 +40,7 @@ const Page = () => {
 
   return (
     <div className='bg-white'>
-      <div className='max-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8'>
+      <div className='mx-auto max-w-2xl px-4 pb-24 pt-16 sm:px-6 lg:max-w-7xl lg:px-8'>
         <h1 className='text-3xl font.bold tracking-tight text-gray-900 sm:text-4cl'>Shopping Cart</h1>
 
         <div className='mt-12 lg:grid lg:grid-cols-12 lg:items-start lg:gap-x-12 xl:gap-x-16 '>
@@ -67,7 +67,7 @@ const Page = () => {
               })}>
               {isMounted &&
                 items.map(({ product }) => {
-                  const label = PRODUCT_CATEGORIES.find(c => c.value === product.category)?.value
+                  const label = PRODUCT_CATEGORIES.find(c => c.value === product.category)?.label
 
                   const { image } = product.images[0]
 
