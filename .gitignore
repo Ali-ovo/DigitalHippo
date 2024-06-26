@@ -39,4 +39,5 @@ next-env.d.ts
 .history
 
 .env
-pnpm-lock.yaml
+
+*pnpm-lock.yaml
